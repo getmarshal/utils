@@ -5,16 +5,23 @@ declare(strict_types=1);
 namespace Marshal\Util\FileSystem\Local;
 
 use League\Flysystem\Filesystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
-class FileManager
+final class FileManager
 {
-    public function __construct(private Filesystem $filesystem)
-    {
-    }
-
     public function getTemplateContents(string $templateFileName): string
     {
-        $template = $this->filesystem->read($templateFileName);
+        // get the directory and file
+        $split = \explode('/', $templateFileName);
+        $filename = \array_pop($split);
+        $dir = \implode('/', $split);
+
+        // create the filesystem adapter
+        $adapter = new LocalFilesystemAdapter($dir);
+        $filesystem = new Filesystem($adapter);
+
+        // read the file
+        $template = $filesystem->read($filename);
         if (! $template) {
             throw new \RuntimeException(\sprintf(
                 "Template file %s not found",

@@ -18,7 +18,7 @@ class PropertyConfigValidator extends AbstractValidator
     private const string PROPERY_RELATION_PROPERTY_NOT_SPECIFIED = 'noPropertyRelationProperty';
     private const string TYPE_NOT_FOUND = 'typeNotFound';
     public array $messageTemplates = [
-        self::IDENTIFIER_NOT_FOUND => "Property identifier %value% not found in config",
+        self::IDENTIFIER_NOT_FOUND => "Property %value% not found in config",
         self::INVALID_CONTENT_IDENTIFIER => 'Invalid property identifier %value%. Must contain format `prefix::name`',
         self::INVALID_INDEX_CONFIG => 'Invalid index config %value%',
         self::INVALID_PROPERTIES_CONFIGURED => 'Invalid property %value%. Definition must be an array',

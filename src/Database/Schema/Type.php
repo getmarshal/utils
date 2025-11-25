@@ -22,7 +22,6 @@ final class Type
         private string $table,
         private array $config
     ) {
-        // foreach ($config['properties'])
     }
 
     public function addParent(Type $type): static
@@ -91,15 +90,6 @@ final class Type
     public function getProperties(): array
     {
         return $this->properties;
-    }
-
-    public function getProperty(string $name): Property
-    {
-        if (! $this->hasProperty($name)) {
-            throw new \InvalidArgumentException(\sprintf("Property %s does not exist", $name));
-        }
-
-        return $this->properties[$name];
     }
 
     public function getPropertyByIdentifier(string $identifier): Property
@@ -177,19 +167,5 @@ final class Type
     {
         $this->properties[$property->getName()] = $property;
         return $this;
-    }
-
-    public function toArray(): array
-    {
-        $properties = [];
-        foreach ($this->getProperties() as $property) {
-            $properties[$property->getName()] = $property->toArray();
-        }
-
-        return [
-            "description"=> $this->getDescription(),
-            "properties" => $properties,
-            "validators" => $this->getValidators(),
-        ];
     }
 }

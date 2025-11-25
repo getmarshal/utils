@@ -55,6 +55,7 @@ class ConfigProvider
                 Database\Migration\MigrationRunCommand::class           => Database\Migration\MigrationCommandFactory::class,
                 Database\Migration\MigrationSetupCommand::class         => Database\Migration\MigrationCommandFactory::class,
                 Database\Migration\MigrationStatusCommand::class        => Database\Migration\MigrationCommandFactory::class,
+                Database\Schema\SchemaManager::class                    => Database\Schema\SchemaManagerFactory::class,
                 FileSystem\Local\FileManager::class                     => FileSystem\Local\FileManagerFactory::class,
                 Logger\Handler\DatabaseHandler::class                   => Logger\Handler\DatabaseHandlerFactory::class,
             ],
@@ -113,6 +114,15 @@ class ConfigProvider
                 "platformOptions" => [
                     "jsonb" => true,
                 ],
+            ],
+            "marshal::log_channel" => [
+                "label" => "Log Channel",
+                "description" => "String indicating log channel",
+                "name" => "level",
+                "index" => true,
+                "notnull" => true,
+                "type" => Types::STRING,
+                "length" => 255,
             ],
             "marshal::log_level" => [
                 "label" => "Log Level",
@@ -193,6 +203,18 @@ class ConfigProvider
                 "label" => "Unique Identifier",
                 "length" => 255,
                 "name" => "identifier",
+                "notnull" => true,
+                "type" => Types::STRING,
+            ],
+            "marshal::tag" => [
+                "constraints" => [
+                    "unique" => true,
+                ],
+                "description" => "Entry unique alphanumeric identifier",
+                "index" => true,
+                "label" => "Unique Identifier Tag",
+                "length" => 255,
+                "name" => "tag",
                 "notnull" => true,
                 "type" => Types::STRING,
             ],

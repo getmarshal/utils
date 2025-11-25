@@ -209,58 +209,19 @@ final class Property
         isset($definition['label']) && $this->label = $definition['label'];
         isset($definition['name']) && $this->name = $definition['name'];
         isset($definition['description']) && $this->description = $definition['description'];
-
-        if (isset($definition['autoincrement'])) {
-            $this->autoIncrement = \boolval($definition['autoincrement']);
-        }
-
-        if (isset($definition['platformOptions'])) {
-            $this->platformOptions = (array) $definition['platformOptions'];
-        }
-
-        if (isset($definition['fixed'])) {
-            $this->fixed = \boolval($definition['fixed']);
-        }
-
-        if (isset($definition['length']) && \is_int($definition['length'])) {
-            $this->length = $definition['length'];
-        }
-
-        if (isset($definition['index']) && (\is_array($definition['index']) || \is_bool($definition['index']))) {
-            $this->index = new PropertyIndex($definition['index']);
-        }
-
-        if (isset($definition['notnull'])) {
-            $this->notNull = \boolval($definition['notnull']);
-        }
-
-        if (isset($definition['precision'])) {
-            $this->precision = \intval($definition['precision']);
-        }
-
-        if (isset($definition['relation']) && $definition['relation'] instanceof PropertyRelation) {
-            $this->relation = $definition['relation'];
-        }
-
-        if (isset($definition['scale'])) {
-            $this->scale = \intval($definition['scale']);
-        }
-
-        if (isset($definition['unsigned'])) {
-            $this->unsigned = \boolval($definition['unsigned']);
-        }
-
-//         if (isset($definition['description']) && \is_string($definition['description'])) {
-//             $this->description = $definition['description'];
-//         }
-
-        if (isset($definition['default'])) {
-            $this->value = $definition['default'];
-        }
-
-        if (isset($definition['convertToPhpType']) && \is_bool($definition['convertToPhpType'])) {
-            $this->convertToPhpType = $definition['convertToPhpType'];
-        }
+        isset($definition['autoincrement']) && $this->autoIncrement = \boolval($definition['autoincrement']);
+        isset($definition['notnull']) && $this->notNull = \boolval($definition['notnull']);
+        isset($definition['default']) && $this->value = $definition['default'];
+        isset($definition['platformOptions']) && $this->platformOptions = (array) $definition['platformOptions'];
+        isset($definition['fixed']) && $this->fixed = \boolval($definition['fixed']);
+        isset($definition['length']) && \is_int($definition['length']) && $this->length = $definition['length'];
+        isset($definition['precision']) && $this->precision = \intval($definition['precision']);
+        isset($definition['scale']) && $this->scale = \intval($definition['scale']);
+        isset($definition['unsigned']) && $this->unsigned = \boolval($definition['unsigned']);
+        isset($definition['scale']) && $this->scale = \intval($definition['scale']);
+        isset($definition['convertToPhpType']) && \is_bool($definition['convertToPhpType']) && $this->convertToPhpType = $definition['convertToPhpType'];
+        isset($definition['relation']) && $definition['relation'] instanceof PropertyRelation && $this->relation = $definition['relation'];
+        isset($definition['index']) && (\is_array($definition['index']) || \is_bool($definition['index'])) && $this->index = new PropertyIndex($definition['index']);
 
         // setup constraints
         if (isset($definition['constraints']) && \is_array($definition['constraints'])) {
@@ -283,24 +244,5 @@ final class Property
     public function setValue(mixed $value): void
     {
         $this->value = $value;
-    }
-
-    public function toArray(): array
-    {
-        return [
-            "autoincrement" => $this->isAutoIncrement(),
-            "description" => $this->getDescription(),
-            "default" => $this->getDefaultValue(),
-            "fixed" => $this->getFixed(),
-            "label" => $this->getLabel(),
-            "length" => $this->getLength(),
-            "name" => $this->getName(),
-            "notnull" => $this->getNotNull(),
-            "platformOptions" => $this->getPlatformOptions(),
-            "precision" => $this->getPrecision(),
-            "scale" => $this->getScale(),
-            "type" => $this->getDatabaseTypeName(),
-            "unsigned" => $this->getUnsigned(),
-        ];
     }
 }

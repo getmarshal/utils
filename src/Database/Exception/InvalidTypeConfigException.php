@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Marshal\Util\Database\Exception;
 
-class InvalidContentConfigException extends \InvalidArgumentException
+class InvalidTypeConfigException extends \InvalidArgumentException
 {
     public function __construct(string $name, array $messages)
     {

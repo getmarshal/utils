@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Marshal\Util\Database;
 
-class Connection extends \Doctrine\DBAL\Connection
+use Doctrine\DBAL\Connection as DBALConnection;
+
+class Connection extends DBALConnection
 {
     public function createQueryBuilder(): QueryBuilder
     {
