@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Marshal\Util;
 
-use Doctrine\DBAL\Types\Types;
-
 class ConfigProvider
 {
     public function __invoke(): array
@@ -45,6 +43,9 @@ class ConfigProvider
                 Database\Migration\MigrationSetupCommand::class => [
                     Database\DatabaseAwareDelegatorFactory::class,
                 ],
+                Database\Migration\MigrationStatusCommand::class => [
+                    Database\DatabaseAwareDelegatorFactory::class,
+                ],
                 Logger\Handler\DatabaseHandler::class => [
                     Database\DatabaseAwareDelegatorFactory::class,
                 ],
@@ -71,21 +72,21 @@ class ConfigProvider
                 "label" => "Auto ID",
                 "name" => "id",
                 "notnull" => true,
-                "type" => Types::BIGINT,
+                "type" => \Doctrine\DBAL\Types\Types::BIGINT,
             ],
             "marshal::name" => [
                 "label" => "Name",
                 "description" => "Entry name",
                 "name" => "name",
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "length" => 255,
             ],
             "marshal::alias" => [
                 "label" => "Alias",
                 "description" => "Entry alternate name",
                 "name" => "alias",
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "length" => 255,
             ],
             "marshal::event_channel" => [
@@ -93,7 +94,7 @@ class ConfigProvider
                 "description" => "Log channel",
                 "name" => "channel",
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "index" => true,
                 "length" => 255,
             ],
@@ -101,7 +102,7 @@ class ConfigProvider
                 "label" => "Context",
                 "description" => "Log message context data",
                 "name" => "context",
-                "type" => Types::JSON,
+                "type" => \Doctrine\DBAL\Types\Types::JSON,
                 "platformOptions" => [
                     "jsonb" => true,
                 ],
@@ -110,7 +111,7 @@ class ConfigProvider
                 "label" => "Extra",
                 "description" => "Log extra details",
                 "name" => "extra",
-                "type" => Types::JSON,
+                "type" => \Doctrine\DBAL\Types\Types::JSON,
                 "platformOptions" => [
                     "jsonb" => true,
                 ],
@@ -121,7 +122,7 @@ class ConfigProvider
                 "name" => "level",
                 "index" => true,
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "length" => 255,
             ],
             "marshal::log_level" => [
@@ -130,7 +131,7 @@ class ConfigProvider
                 "name" => "level",
                 "index" => true,
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "length" => 255,
             ],
             "marshal::log_message" => [
@@ -138,7 +139,7 @@ class ConfigProvider
                 "description" => "Log message",
                 "name" => "message",
                 "notnull" => true,
-                "type" => Types::TEXT,
+                "type" => \Doctrine\DBAL\Types\Types::TEXT,
             ],
             "marshal::migration_db" => [
                 "label" => "Migration DB",
@@ -147,7 +148,7 @@ class ConfigProvider
                 "index" => true,
                 "length" => 255,
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
             ],
             "marshal::migration_diff" => [
                 "label" => "Migration Diff",
@@ -155,7 +156,7 @@ class ConfigProvider
                 "name" => "diff",
                 "convertToPhpType" => false,
                 "notnull" => true,
-                "type" => Types::BLOB,
+                "type" => \Doctrine\DBAL\Types\Types::BLOB,
             ],
             "marshal::migration_status" => [
                 "label" => "Migration Status",
@@ -170,27 +171,27 @@ class ConfigProvider
                 "label" => "URL",
                 "description" => "Entry url",
                 "name" => "url",
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "length" => 255,
             ],
             "marshal::image" => [
                 "label" => "Image",
                 "description" => "Entry featured image",
                 "name" => "image",
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
                 "length" => 255,
             ],
             "marshal::description" => [
                 "label" => "Description",
                 "description" => "Entry brief description",
                 "name" => "description",
-                "type" => Types::TEXT,
+                "type" => \Doctrine\DBAL\Types\Types::TEXT,
             ],
             "marshal::created_at" => [
                 "label" => "Created At",
                 "description" => "Entry creation time",
                 "name" => "created_at",
-                "type" => Types::DATETIMETZ_IMMUTABLE,
+                "type" => \Doctrine\DBAL\Types\Types::DATETIMETZ_IMMUTABLE,
                 "notnull" => true,
                 "index" => true,
             ],
@@ -204,7 +205,7 @@ class ConfigProvider
                 "length" => 255,
                 "name" => "identifier",
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
             ],
             "marshal::tag" => [
                 "constraints" => [
@@ -216,13 +217,13 @@ class ConfigProvider
                 "length" => 255,
                 "name" => "tag",
                 "notnull" => true,
-                "type" => Types::STRING,
+                "type" => \Doctrine\DBAL\Types\Types::STRING,
             ],
             "marshal::updated_at" => [
                 "label" => "Updated At",
                 "description" => "Entry last updated time",
                 "name" => "updated_at",
-                "type" => Types::DATETIMETZ_IMMUTABLE,
+                "type" => \Doctrine\DBAL\Types\Types::DATETIMETZ_IMMUTABLE,
                 "notnull" => true,
                 "index" => true,
             ],
@@ -273,11 +274,12 @@ class ConfigProvider
                 ],
             ],
             "marshal::migration" => [
-                "name" => "",
-                "description" => [],
-                "inherits" => ["marshal::entry"],
-                "meta" => [],
+                "database" => "marshal",
+                "name" => "Migration",
+                "description" => "Migrations table",
                 "properties" => [
+                    "marshal::id" => [],
+                    "marshal::name" => [],
                     "marshal::migration_db" => [],
                     "marshal::migration_diff" => [],
                     "marshal::migration_status" => [],
@@ -287,10 +289,7 @@ class ConfigProvider
                     "marshal::created_at" => [],
                     "marshal::updated_at" => [],
                 ],
-                "exclude_properties" => [
-                    "marshal::alias",
-                    "marshal::image",
-                ],
+                "table" => "migration",
             ],
         ];
     }

@@ -184,7 +184,7 @@ final class Property
         return $this->value;
     }
 
-    public function hasComment(): bool
+    public function hasDescription(): bool
     {
         return isset($this->comment);
     }

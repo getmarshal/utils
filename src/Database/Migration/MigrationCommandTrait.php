@@ -32,27 +32,27 @@ trait MigrationCommandTrait
                     'unsigned' => $property->getUnsigned(),
                 ];
 
-                if ($property->hasComment()) {
-                    $columnOptions['comment'] = $property->getComment();
+                if ($property->hasDescription()) {
+                    $columnOptions['comment'] = $property->getDescription();
                 }
 
                 // add column to table
                 $table->addColumn(
-                    name: $property->getIdentifier(),
+                    name: $property->getName(),
                     typeName: $property->getDatabaseTypeName(),
                     options: $columnOptions
                 );
 
                 // autoincrementing properties are primary keys
                 if ($property->isAutoIncrement()) {
-                    $table->setPrimaryKey([$property->getIdentifier()]);
+                    $table->setPrimaryKey([$property->getName()]);
                 }
 
                 // configure column index
                 if ($property->hasIndex()) {
                     $table->addIndex(
-                        columnNames: [$property->getIdentifier()],
-                        indexName: $property->getIndex()->getName() ?? \strtolower("idx_{$type->getTable()}_{$property->getIdentifier()}"),
+                        columnNames: [$property->getName()],
+                        indexName: $property->getIndex()->getName() ?? \strtolower("idx_{$type->getTable()}_{$property->getName()}"),
                         flags: $property->getIndex()->getFlags(),
                         options: $property->getIndex()->getOptions()
                     );
@@ -61,8 +61,8 @@ trait MigrationCommandTrait
                 if ($property->hasUniqueConstraint()) {
                     $constraint = $property->getUniqueConstraint();
                     $table->addUniqueIndex(
-                        columnNames: [$property->getIdentifier()],
-                        indexName: $constraint->getName() ?? \strtolower("uniq_{$type->getTable()}_{$property->getIdentifier()}"),
+                        columnNames: [$property->getName()],
+                        indexName: $constraint->getName() ?? \strtolower("uniq_{$type->getTable()}_{$property->getName()}"),
                         options: $constraint->getOptions(),
                     );
                 }
@@ -72,13 +72,13 @@ trait MigrationCommandTrait
                     $relation = $property->getRelation();
                     $table->addForeignKeyConstraint(
                         foreignTableName: $relation->getType()->getTable(),
-                        localColumnNames: [$property->getIdentifier()],
-                        foreignColumnNames: [$relation->getProperty()->getIdentifier()],
+                        localColumnNames: [$property->getName()],
+                        foreignColumnNames: [$relation->getProperty()->getName()],
                         options: [
                             'onUpdate' => $relation->getOnUpdate(),
                             'onDelete' => $relation->getOnDelete(),
                         ],
-                        name: \strtolower("fk_{$type->getTable()}_{$property->getIdentifier()}")
+                        name: \strtolower("fk_{$type->getTable()}_{$property->getName()}")
                     );
                 }
             }

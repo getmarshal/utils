@@ -5,8 +5,6 @@ declare(strict_types= 1);
 namespace Marshal\Util\Database\Migration;
 
 use Doctrine\DBAL\Schema\SchemaDiff;
-use Marshal\ContentManager\Event\ReadContentEvent;
-use Marshal\ContentManager\Event\UpdateContentEvent;
 use Marshal\EventManager\EventDispatcherAwareInterface;
 use Marshal\EventManager\EventDispatcherAwareTrait;
 use Marshal\Util\Database\DatabaseAwareInterface;
@@ -22,6 +20,8 @@ final class MigrationRunCommand extends Command implements DatabaseAwareInterfac
 {
     use DatabaseAwareTrait;
     use EventDispatcherAwareTrait;
+
+    public const string COMMAND_NAME = "migration:run";
 
     public function __construct(protected ContainerInterface $container, string $name)
     {
@@ -69,7 +69,10 @@ final class MigrationRunCommand extends Command implements DatabaseAwareInterfac
         }
 
         $diff = \unserialize($migration['diff']);
-        \assert($diff instanceof SchemaDiff);
+        if (! $diff instanceof SchemaDiff) {
+            $io->error("Invalid migration.");
+            return Command::FAILURE;
+        }
 
         try {
             $dbConnection = $this->getDatabaseConnection($migration['db']);
@@ -89,7 +92,7 @@ final class MigrationRunCommand extends Command implements DatabaseAwareInterfac
         // update migration table
         $update = $queryBuilder->update('migration')
             ->set('status', $queryBuilder->createNamedParameter(1))
-            ->set('updatedat', $queryBuilder->createNamedParameter((new \DateTime())->format('c')))
+            ->set('updated_at', $queryBuilder->createNamedParameter((new \DateTime())->format('c')))
             ->where('id', $queryBuilder->createNamedParameter($migration['id']))
             ->executeStatement();
         if (empty($update)) {

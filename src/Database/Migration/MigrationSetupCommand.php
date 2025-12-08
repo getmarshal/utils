@@ -6,8 +6,8 @@ namespace Marshal\Util\Database\Migration;
 
 use Marshal\Util\Database\DatabaseAwareInterface;
 use Marshal\Util\Database\DatabaseAwareTrait;
+use Marshal\Util\Database\Schema\SchemaManager;
 use Marshal\Util\Database\Schema\Type;
-use Marshal\Util\Database\Schema\TypeManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,17 +32,24 @@ final class MigrationSetupCommand extends Command implements DatabaseAwareInterf
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->info("Setting up migrations");
+        $io->info("Setting up migrations...");
 
-        $connection = $this->getDatabaseConnection();
+        try {
+            $connection = $this->getDatabaseConnection();
+        } catch (\Throwable $e) {
+            $io->error("Error connecting to database");
+            $io->error($e->getMessage());
+            return Command::FAILURE;
+        }
+
         if ($connection->createSchemaManager()->tableExists('migration')) {
             $io->info("Migrations already setup");
             return Command::SUCCESS;
         }
 
         // create the migrations table
-        $typeManager = $this->container->get(TypeManager::class);
-        \assert($typeManager instanceof TypeManager);
+        $typeManager = $this->container->get(SchemaManager::class);
+        \assert($typeManager instanceof SchemaManager);
 
         $type = $typeManager->get("marshal::migration");
         \assert($type instanceof Type);

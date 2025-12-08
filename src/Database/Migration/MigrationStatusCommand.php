@@ -30,14 +30,34 @@ final class MigrationStatusCommand extends Command implements DatabaseAwareInter
     {
         $io = new SymfonyStyle($input, $output);
 
+        $io->info("Checking migration status...");
+
         // read migrations status
-        $connection = $this->getDatabaseConnection();
+        try {
+            $connection = $this->getDatabaseConnection();
+        } catch (\Throwable $e) {
+            $io->error("Error connecting to database");
+            $io->error($e->getMessage());
+            return Command::FAILURE;
+        }
+
+        if (! $connection->createSchemaManager()->tableExists('migration')) {
+            // @todo call migration:setup
+            $io->error("Migrations NOT setup");
+            return Command::FAILURE;
+        }
+
         $collection = $connection->createQueryBuilder()
             ->select('m.*')
             ->from('migration', 'm')
-            ->orderBy('createdat', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
+        
+        if (empty($collection)) {
+            $io->success("No pending migrations");
+            return Command::SUCCESS;
+        }
 
         $result = [];
         foreach ($collection as $row) {
@@ -49,8 +69,8 @@ final class MigrationStatusCommand extends Command implements DatabaseAwareInter
                 'migration' => $row['name'],
                 'database' => $row['db'],
                 'status' => $row['status'],
-                'created' => $row['createdat']->format('c'),
-                'executed' => $row['updatedat'] ? $row['updatedat']->format('c') : null,
+                'created' => $row['created_at']->format('c'),
+                'executed' => $row['updated_at'] ? $row['updatedat']->format('c') : null,
             ];
         }
 

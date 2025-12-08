@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60a7181bc08b10e7874653c18fdad86e",
+    "content-hash": "6baefe58ff79de45b1a69d1e1804598c",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1572,41 +1572,6 @@
                 }
             ],
             "time": "2024-08-27T16:04:50+00:00"
-        },
-        {
-            "name": "marshal/eventmanager",
-            "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "../eventmanager",
-                "reference": "25877566795e3fe74fa5fff48e64fa3b65707a1a"
-            },
-            "require": {
-                "psr/container": "^1.0",
-                "psr/event-dispatcher": "^1.0"
-            },
-            "provide": {
-                "psr/event-dispatcher-implementation": "1.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Marshal\\EventManager\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Collins Pamba",
-                    "email": "collinspamba@outlook.com"
-                }
-            ],
-            "description": "PSR-14 event manager implementation",
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "mezzio/mezzio-fastroute",
@@ -3426,9 +3391,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "marshal/eventmanager": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
