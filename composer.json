@@ -2,7 +2,7 @@
     "name": "marshal/utils",
     "description": "Utilities package for Marshal",
     "type": "library",
-    "license": "MIT",
+    "license": "AGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "Marshal\\Utils\\": "src/"
@@ -17,8 +17,6 @@
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "doctrine/dbal": "^4.3",
         "guzzlehttp/guzzle": "^7.9",
