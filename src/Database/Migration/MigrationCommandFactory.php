@@ -2,7 +2,7 @@
 
 declare(strict_types= 1);
 
-namespace Marshal\Util\Database\Migration;
+namespace Marshal\Utils\Database\Migration;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;

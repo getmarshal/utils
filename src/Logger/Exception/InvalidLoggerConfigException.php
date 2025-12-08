@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Logger\Exception;
+namespace Marshal\Utils\Logger\Exception;
 
 class InvalidLoggerConfigException extends \InvalidArgumentException
 {

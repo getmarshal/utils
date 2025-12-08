@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database\Validator;
+namespace Marshal\Utils\Database\Validator;
 
 use Laminas\Validator\AbstractValidator;
 

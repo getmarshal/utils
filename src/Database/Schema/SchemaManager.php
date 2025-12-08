@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database\Schema;
+namespace Marshal\Utils\Database\Schema;
 
-use Marshal\Util\Database\Exception\InvalidTypeConfigException;
-use Marshal\Util\Database\Exception\InvalidPropertyConfigException;
-use Marshal\Util\Database\Validator\PropertyConfigValidator;
-use Marshal\Util\Database\Validator\TypeConfigValidator;
+use Marshal\Utils\Database\Exception\InvalidTypeConfigException;
+use Marshal\Utils\Database\Exception\InvalidPropertyConfigException;
+use Marshal\Utils\Database\Validator\PropertyConfigValidator;
+use Marshal\Utils\Database\Validator\TypeConfigValidator;
 
 final class SchemaManager
 {

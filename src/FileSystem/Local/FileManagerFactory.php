@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\FileSystem\Local;
+namespace Marshal\Utils\FileSystem\Local;
 
 use Psr\Container\ContainerInterface;
 

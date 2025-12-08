@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database\Migration;
+namespace Marshal\Utils\Database\Migration;
 
 use Doctrine\DBAL\Schema\SchemaDiff;
-use Marshal\Util\Database\DatabaseAwareInterface;
-use Marshal\Util\Database\DatabaseAwareTrait;
-use Marshal\Util\Database\Schema\SchemaManager;
+use Marshal\Utils\Database\DatabaseAwareInterface;
+use Marshal\Utils\Database\DatabaseAwareTrait;
+use Marshal\Utils\Database\Schema\SchemaManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

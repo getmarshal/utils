@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Helper;
+namespace Marshal\Utils\Helper;
 
 use Marshal\Server\Platform\PlatformInterface;
 use Mezzio\Router\RouteResult;

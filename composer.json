@@ -1,11 +1,11 @@
 {
-    "name": "marshal/util",
+    "name": "marshal/utils",
     "description": "Utilities package for Marshal",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Marshal\\Util\\": "src/"
+            "Marshal\\Utils\\": "src/"
         }
     },
     "authors": [

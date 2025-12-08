@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database;
+namespace Marshal\Utils\Database;
 
 use Psr\Container\ContainerInterface;
 

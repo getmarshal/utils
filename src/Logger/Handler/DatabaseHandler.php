@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Logger\Handler;
+namespace Marshal\Utils\Logger\Handler;
 
 use Marshal\ContentManager\ContentManager;
-use Marshal\Util\Database\DatabaseAwareInterface;
-use Marshal\Util\Database\DatabaseAwareTrait;
+use Marshal\Utils\Database\DatabaseAwareInterface;
+use Marshal\Utils\Database\DatabaseAwareTrait;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
 

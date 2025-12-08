@@ -2,10 +2,10 @@
 
 declare(strict_types= 1);
 
-namespace Marshal\Util\Database\Migration;
+namespace Marshal\Utils\Database\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
-use Marshal\Util\Database\Schema\Type;
+use Marshal\Utils\Database\Schema\Type;
 
 trait MigrationCommandTrait
 {

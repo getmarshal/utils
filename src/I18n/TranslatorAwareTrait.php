@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\I18n;
+namespace Marshal\Utils\I18n;
 
 trait TranslatorAwareTrait
 {

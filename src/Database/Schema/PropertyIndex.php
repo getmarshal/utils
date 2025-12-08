@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database\Schema;
+namespace Marshal\Utils\Database\Schema;
 
 final class PropertyIndex
 {

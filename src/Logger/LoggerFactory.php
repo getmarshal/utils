@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Logger;
+namespace Marshal\Utils\Logger;
 
 use Monolog\Logger;
 use Monolog\Handler\HandlerInterface;

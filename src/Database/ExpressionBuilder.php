@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database;
+namespace Marshal\Utils\Database;
 
 class ExpressionBuilder extends \Doctrine\DBAL\Query\Expression\ExpressionBuilder
 {

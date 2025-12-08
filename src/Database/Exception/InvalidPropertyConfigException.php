@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database\Exception;
+namespace Marshal\Utils\Database\Exception;
 
 class InvalidPropertyConfigException extends \InvalidArgumentException
 {

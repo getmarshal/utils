@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Logger\Handler;
+namespace Marshal\Utils\Logger\Handler;
 
 use Marshal\ContentManager\ContentManager;
 use Psr\Container\ContainerInterface;

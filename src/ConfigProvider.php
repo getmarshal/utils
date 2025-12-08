@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util;
+namespace Marshal\Utils;
 
 class ConfigProvider
 {

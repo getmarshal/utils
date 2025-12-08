@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Marshal\Util\Database\Schema;
+namespace Marshal\Utils\Database\Schema;
 
 use Laminas\Validator\ValidatorPluginManager;
-use Marshal\Util\Database\Validator\PropertyConfigValidator;
-use Marshal\Util\Database\Validator\TypeConfigValidator;
+use Marshal\Utils\Database\Validator\PropertyConfigValidator;
+use Marshal\Utils\Database\Validator\TypeConfigValidator;
 use Psr\Container\ContainerInterface;
 
 final class SchemaManagerFactory
