@@ -20,6 +20,7 @@
     "require": {
         "doctrine/dbal": "^4.3",
         "guzzlehttp/guzzle": "^7.9",
+        "laminas/laminas-inputfilter": "2.34",
         "league/flysystem": "^3.30",
         "loophp/collection": "^7.6",
         "monolog/monolog": "^3.9",
