@@ -21,6 +21,7 @@
         "doctrine/dbal": "^4.3",
         "guzzlehttp/guzzle": "^7.9",
         "league/flysystem": "^3.30",
+        "loophp/collection": "^7.6",
         "monolog/monolog": "^3.9",
         "psr/container": "1.*",
         "psr/event-dispatcher": "^1.0",
