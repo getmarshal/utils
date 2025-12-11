@@ -9,24 +9,11 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            "commands" => $this->getCommands(),
             "dependencies" => $this->getDependencies(),
             "schema" => [
                 "types" => $this->getSchemaTypes(),
                 "properties" => $this->getSchemaProperties(),
             ],
-            "validators" => $this->getValidators(),
-        ];
-    }
-
-    private function getCommands(): array
-    {
-        return [
-            'migration:generate' => Database\Migration\MigrationGenerateCommand::class,
-            'migration:rollback' => Database\Migration\MigrationRollBackCommand::class,
-            'migration:run' => Database\Migration\MigrationRunCommand::class,
-            'migration:setup' => Database\Migration\MigrationSetupCommand::class,
-            'migration:status' => Database\Migration\MigrationStatusCommand::class,
         ];
     }
 
@@ -34,29 +21,11 @@ class ConfigProvider
     {
         return [
             "delegators" => [
-                Database\Migration\MigrationGenerateCommand::class => [
-                    Database\DatabaseAwareDelegatorFactory::class,
-                ],
-                Database\Migration\MigrationRunCommand::class => [
-                    Database\DatabaseAwareDelegatorFactory::class,
-                ],
-                Database\Migration\MigrationSetupCommand::class => [
-                    Database\DatabaseAwareDelegatorFactory::class,
-                ],
-                Database\Migration\MigrationStatusCommand::class => [
-                    Database\DatabaseAwareDelegatorFactory::class,
-                ],
                 Logger\Handler\DatabaseHandler::class => [
                     Database\DatabaseAwareDelegatorFactory::class,
                 ],
             ],
             "factories" => [
-                Database\Migration\MigrationGenerateCommand::class      => Database\Migration\MigrationCommandFactory::class,
-                Database\Migration\MigrationRollBackCommand::class      => Database\Migration\MigrationCommandFactory::class,
-                Database\Migration\MigrationRunCommand::class           => Database\Migration\MigrationCommandFactory::class,
-                Database\Migration\MigrationSetupCommand::class         => Database\Migration\MigrationCommandFactory::class,
-                Database\Migration\MigrationStatusCommand::class        => Database\Migration\MigrationCommandFactory::class,
-                Database\Schema\SchemaManager::class                    => Database\Schema\SchemaManagerFactory::class,
                 FileSystem\Local\FileManager::class                     => FileSystem\Local\FileManagerFactory::class,
                 Logger\Handler\DatabaseHandler::class                   => Logger\Handler\DatabaseHandlerFactory::class,
             ],
@@ -290,16 +259,6 @@ class ConfigProvider
                     "marshal::updated_at" => [],
                 ],
                 "table" => "migration",
-            ],
-        ];
-    }
-
-    private function getValidators(): array
-    {
-        return [
-            "factories" => [
-                Database\Validator\PropertyConfigValidator::class => Database\Validator\PropertyConfigValidatorFactory::class,
-                Database\Validator\TypeConfigValidator::class => Database\Validator\TypeConfigValidatorFactory::class,
             ],
         ];
     }

@@ -8,31 +8,39 @@ declare(strict_types=1);
 
 namespace Marshal\Utils\Logger;
 
+use Marshal\Application\Config;
 use Monolog\Logger;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Processor\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 
-final class LoggerFactory
+final class LoggerManager
 {
-    private array $loggers = [];
-    private array $validationMessages = [];
+    private static array $loggers = [];
 
-    public function __construct(private array $loggersConfig)
+    private function __construct()
     {
     }
 
-    public function getLogger(string $name): LoggerInterface
+    private function __clone(): void
     {
-        if (isset($this->loggers[$name]) && $this->loggers[$name] instanceof LoggerInterface) {
-            return $this->loggers[$name];
+    }
+
+    public static function get(string $name): LoggerInterface
+    {
+        if (isset(static::$loggers[$name]) && static::$loggers[$name] instanceof LoggerInterface) {
+            return static::$loggers[$name];
         }
 
-        if (! $this->isValid($name)) {
-            throw new Exception\InvalidLoggerConfigException($name, $this->validationMessages);
+        $loggersConfig = Config::get('loggers');
+
+        // validate this logger
+        $validator = new Validator\LoggerConfigValidator($loggersConfig);
+        if (! $validator->isValid($name)) {
+            throw new Exception\InvalidLoggerConfigException($name, $validator->getMessages());
         }
 
-        $config = $this->loggersConfig[$name];
+        $config = $loggersConfig[$name];
         $logger = new Logger($name);
 
         // push handlers
@@ -74,41 +82,8 @@ final class LoggerFactory
             $logger->pushProcessor($instance);
         }
 
-        $this->loggers[$name] = $logger;
+        static::$loggers[$name] = $logger;
 
         return $logger;
-    }
-
-    private function isValid(string $name): bool
-    {
-        if (! \array_key_exists($name, $this->loggersConfig)) {
-            $this->validationMessages[] = \sprintf(
-                "Logger %s not found in config",
-                $name
-            );
-        }
-
-        $config = $this->loggersConfig[$name];
-        foreach ($config['handlers'] ?? [] as $handler => $handlerOptions) {
-            if (! \is_string($handler)) {
-                $this->validationMessages[] = \sprintf(
-                    "Invalid handler %s for logger %s. Must be a string",
-                    \get_debug_type($handler),
-                    $name
-                );
-            }
-        }
-
-        foreach ($config['processors'] ?? [] as $processor => $processorOptions) {
-            if (! \is_string($processor)) {
-                $this->validationMessages[] = \sprintf(
-                    "Invalid processor %s for logger %s. Must be a string",
-                    \get_debug_type($processor),
-                    $name
-                );
-            }
-        }
-
-        return empty($this->validationMessages) ? TRUE : FALSE;
     }
 }
