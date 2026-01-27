@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace Marshal\Utils;
 
+use Laminas\ConfigAggregator\ArrayProvider;
+use Laminas\ConfigAggregator\ConfigAggregator;
+
 class ConfigProvider
 {
     public function __invoke(): array
     {
-        return [
-            "dependencies" => $this->getDependencies(),
-            "schema" => [
-                "types" => $this->getSchemaTypes(),
-                "properties" => $this->getSchemaProperties(),
-            ],
-        ];
+        $config = new ConfigAggregator([
+            new ArrayProvider([
+                "dependencies" => $this->getDependencies(),
+            ]),
+            Schema::class,
+        ]);
+
+        return $config->getMergedConfig();
     }
 
     private function getDependencies(): array
@@ -35,29 +39,6 @@ class ConfigProvider
     private function getSchemaProperties(): array
     {
         return [
-            "marshal::id" => [
-                "autoincrement" => true,
-                "description" => "Autoincrementing integer ID",
-                "label" => "Auto ID",
-                "name" => "id",
-                "notnull" => true,
-                "type" => \Doctrine\DBAL\Types\Types::BIGINT,
-            ],
-            "marshal::name" => [
-                "label" => "Name",
-                "description" => "Entry name",
-                "name" => "name",
-                "notnull" => true,
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-                "length" => 255,
-            ],
-            "marshal::alias" => [
-                "label" => "Alias",
-                "description" => "Entry alternate name",
-                "name" => "alias",
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-                "length" => 255,
-            ],
             "marshal::event_channel" => [
                 "label" => "Log Channel",
                 "description" => "Log channel",
@@ -109,156 +90,6 @@ class ConfigProvider
                 "name" => "message",
                 "notnull" => true,
                 "type" => \Doctrine\DBAL\Types\Types::TEXT,
-            ],
-            "marshal::migration_db" => [
-                "label" => "Migration DB",
-                "description" => "Database name migration belongs to",
-                "name" => "db",
-                "index" => true,
-                "length" => 255,
-                "notnull" => true,
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-            ],
-            "marshal::migration_diff" => [
-                "label" => "Migration Diff",
-                "description" => "Serialized object containing a schema diff",
-                "name" => "diff",
-                "convertToPhpType" => false,
-                "notnull" => true,
-                "type" => \Doctrine\DBAL\Types\Types::BLOB,
-            ],
-            "marshal::migration_status" => [
-                "label" => "Migration Status",
-                "description" => "0 or 1 migration status indicator",
-                "name" => "status",
-                'type' => 'smallint',
-                'notnull' => true,
-                'default' => 0,
-                'index' => true,
-            ],
-            "marshal::url" => [
-                "label" => "URL",
-                "description" => "Entry url",
-                "name" => "url",
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-                "length" => 255,
-            ],
-            "marshal::image" => [
-                "label" => "Image",
-                "description" => "Entry featured image",
-                "name" => "image",
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-                "length" => 255,
-            ],
-            "marshal::description" => [
-                "label" => "Description",
-                "description" => "Entry brief description",
-                "name" => "description",
-                "type" => \Doctrine\DBAL\Types\Types::TEXT,
-            ],
-            "marshal::created_at" => [
-                "label" => "Created At",
-                "description" => "Entry creation time",
-                "name" => "created_at",
-                "type" => \Doctrine\DBAL\Types\Types::DATETIMETZ_IMMUTABLE,
-                "notnull" => true,
-                "index" => true,
-            ],
-            "marshal::identifier" => [
-                "constraints" => [
-                    "unique" => true,
-                ],
-                "description" => "Entry unique alphanumeric identifier",
-                "index" => true,
-                "label" => "Unique Identifier",
-                "length" => 255,
-                "name" => "identifier",
-                "notnull" => true,
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-            ],
-            "marshal::tag" => [
-                "constraints" => [
-                    "unique" => true,
-                ],
-                "description" => "Entry unique alphanumeric identifier",
-                "index" => true,
-                "label" => "Unique Identifier Tag",
-                "length" => 255,
-                "name" => "tag",
-                "notnull" => true,
-                "type" => \Doctrine\DBAL\Types\Types::STRING,
-            ],
-            "marshal::updated_at" => [
-                "label" => "Updated At",
-                "description" => "Entry last updated time",
-                "name" => "updated_at",
-                "type" => \Doctrine\DBAL\Types\Types::DATETIMETZ_IMMUTABLE,
-                "notnull" => true,
-                "index" => true,
-            ],
-        ];
-    }
-
-    private function getSchemaTypes(): array
-    {
-        return [
-            "marshal::entry" => [
-                "name" => "Entry",
-                "description" => "Generic database entry",
-                "properties" => [
-                    "marshal::id" => [],
-                    "marshal::name" => [],
-                    "marshal::alias" => [],
-                    "marshal::url" => [],
-                    "marshal::image" => [],
-                    "marshal::description" => [],
-                    "marshal::identifier" => [],
-                    "marshal::created_at" => [],
-                    "marshal::updated_at" => [],
-                ],
-            ],
-            "marshal::log" => [
-                "name" => "",
-                "description" => [],
-                "inherits" => ["marshal::entry"],
-                "meta" => [],
-                "properties" => [
-                    "marshal::log_channel" => [],
-                    "marshal::log_level" => [],
-                    "marshal::log_message" => [],
-                    "marshal::log_context" => [],
-                    "marshal::log_extra" => [],
-                    "marshal::description" => [
-                        "name" => "message",
-                    ],
-                    "marshal::created_at" => [
-                        "name" => "timestamp",
-                    ],
-                ],
-                "exclude_properties" => [
-                    "marshal::alias",
-                    "marshal::image",
-                    "marshal::name",
-                    "marshal::description",
-                ],
-            ],
-            "marshal::migration" => [
-                "database" => "marshal",
-                "name" => "Migration",
-                "description" => "Migrations table",
-                "properties" => [
-                    "marshal::id" => [],
-                    "marshal::name" => [],
-                    "marshal::migration_db" => [],
-                    "marshal::migration_diff" => [],
-                    "marshal::migration_status" => [],
-                    "marshal::identifier" => [
-                        "name" => "tag",
-                    ],
-                    "marshal::created_at" => [],
-                    "marshal::updated_at" => [],
-                ],
-                "table" => "migration",
             ],
         ];
     }

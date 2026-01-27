@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Marshal\Utils\Logger;
 
-use Marshal\Application\Config;
+use Marshal\Utils\Config;
 use Monolog\Logger;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Processor\ProcessorInterface;
@@ -26,7 +26,7 @@ final class LoggerManager
     {
     }
 
-    public static function get(string $name): LoggerInterface
+    public static function get(string $name = "marshal::default"): LoggerInterface
     {
         if (isset(static::$loggers[$name]) && static::$loggers[$name] instanceof LoggerInterface) {
             return static::$loggers[$name];
