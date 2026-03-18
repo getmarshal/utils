@@ -22,10 +22,10 @@ final class Config
         return isset(self::$config[$key]);
     }
 
-    public static function get(string $key): mixed
+    public static function get(string $key, mixed $default = null): mixed
     {
         if (! self::has($key)) {
-            throw new \InvalidArgumentException("Config has no $key set");
+            return $default;
         }
 
         return self::$config[$key];
