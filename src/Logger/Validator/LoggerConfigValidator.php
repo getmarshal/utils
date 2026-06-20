@@ -36,6 +36,10 @@ final class LoggerConfigValidator extends AbstractValidator
                 $this->error(self::INVALID_LOGGER_HANDLER);
                 return FALSE;
             }
+
+            if (FALSE === $this->isValidHandlerOptions($handlerOptions)) {
+                return FALSE;
+            }
         }
 
         foreach ($config['processors'] ?? [] as $processor => $processorOptions) {
@@ -44,8 +48,22 @@ final class LoggerConfigValidator extends AbstractValidator
                 $this->error(self::INVALID_LOGGER_PROCESSOR);
                 return FALSE;
             }
+
+            if (FALSE === $this->isValidProcessorOptions($processorOptions)) {
+                return FALSE;
+            }
         }
 
+        return TRUE;
+    }
+
+    private function isValidHandlerOptions(array $options): bool
+    {
+        return TRUE;
+    }
+
+    private function isValidProcessorOptions(array $options): bool
+    {
         return TRUE;
     }
 }
