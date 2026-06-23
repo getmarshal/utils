@@ -19,7 +19,7 @@
     },
     "require": {
         "ext-intl": "*",
-        "laminas/laminas-inputfilter": "2.34",
+        "guzzlehttp/guzzle": "^7.12",
         "monolog/monolog": "^3.9",
         "symfony/console": "^8.0"
     },
